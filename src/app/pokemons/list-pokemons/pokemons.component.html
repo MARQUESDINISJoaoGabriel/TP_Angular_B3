@@ -1,0 +1,41 @@
+<h1 class="center">Liste des pokémons</h1>
+
+<div class="container">
+
+  <search-pokemon></search-pokemon>
+
+  <div class="row">
+    <div class="col s12 right-align">
+      <a class="waves-effect waves-light btn" (click)="goAddPokemon()">Ajouter un Pokémon</a>
+      <button class="waves-effect waves-light btn" (click)="exportFiltered()">Exporter en JSON</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <p>Total Pokémon: {{ filteredPokemons.length }}</p>
+
+    <div class="col s12">
+      <label>Filtrer par rareté</label>
+      <select [(ngModel)]="filterRarity" (change)="applyFilters()">
+        <option [ngValue]="0">Tous</option>
+        <option *ngFor="let r of [1,2,3,4,5]" [ngValue]="r">{{ r }} ★</option>
+      </select>
+    </div>
+
+    <div *ngFor="let pokemon of filteredPokemons" class="col s6 m4">
+      <div class="card horizontal" pkmnBorderCard [rarityColor]="pokemon.rarity" (click)="selectPokemon(pokemon)">
+        <div class="card-image">
+          <img [src]="pokemon.picture">
+        </div>
+        <div class="card-stacked">
+          <div class="card-content">
+            <p>{{ pokemon.name }}</p>
+            <p><small>{{pokemon.created | date: "dd/MM/yy"}}</small></p>
+            <span *ngFor="let type of pokemon.types" class="{{ type | pokemonTypeColor }}">{{type}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

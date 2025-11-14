@@ -1,0 +1,17 @@
+// src/app/auth/auth.guard.ts
+//Guard : protège les pages privées
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from './auth.service';
+
+export const authGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  if (!auth.hasToken()) {
+    router.navigate(['/login']);
+    return false;
+  }
+
+  return true;
+};
